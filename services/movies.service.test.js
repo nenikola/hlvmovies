@@ -43,7 +43,7 @@ describe("Movies service", () => {
     expect(movies).toEqual(detailsMovies);
   });
 
-  it("should return empty array of movies details", async () => {
+  it("should throw an error", async () => {
     axios.get.mockImplementation((movie) => {
       return JSON.parse(`{ "data": ${detailsResponseTemplate(movie)}}`);
     });
@@ -52,6 +52,13 @@ describe("Movies service", () => {
     } catch (error) {
       expect(error.message).toEqual("Movies must be defined array");
     }
+  });
+  it("should return empty array", async () => {
+    axios.get.mockImplementation((movie) => {
+      return JSON.parse(`{ "data": ${detailsResponseTemplate(movie)}}`);
+    });
+    const movies = await moviesService.getMoviesDetails([]);
+    expect(movies).toEqual([]);
   });
 });
 
