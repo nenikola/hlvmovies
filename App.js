@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import CardList from "./components/containers/CardList/CardList";
+import DetailsList from "./components/containers/DetailsList/DetailsList";
+import { Provider } from "mobx-react";
+import observableStore from "./mobx-store/store.js";
 
 export default function App() {
+  const Stack = createStackNavigator();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Provider observableStore={observableStore}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="CardList"
+            component={CardList}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DetailsList"
+            component={DetailsList}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </Provider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
